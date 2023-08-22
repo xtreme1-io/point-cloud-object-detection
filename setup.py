@@ -17,29 +17,29 @@ def find_version(filepath):
     raise RuntimeError("Unable to find version string.")
 
 
-VERSION = find_version(join('pcdet_open', '__init__.py'))
-long_description = read_file_content('README.md')
+VERSION = find_version(join("pcdet_open", "__init__.py"))
+long_description = read_file_content("README.md")
 
-setup(name='pcdet-open',
-      version=VERSION,
-      url='https://gitlab.talos.basic.ai/basicai/algorithm/pcdet-open.git',
-      author='Dasheng Ji',
-      author_email='jidasheng@basicfinder.com',
-      description='点云3D框识别',
-      long_description=long_description,
-      long_description_content_type='text/markdown',
-
-      packages=find_packages(),
-      include_package_data=True,
-      install_requires=[
-          "numpy",
-          "requests",
-          "python-lzf",
-          "scikit-learn",
-          "tornado",
-      ],
-      classifiers=[
-          "Programming Language :: Python :: 3",
-          "Operating System :: OS Independent",
-      ],
-      )
+setup(
+    name="pcdet-open",
+    version=VERSION,
+    url="https://github.com/xtreme1-io/point-cloud-object-detection.git",
+    author="Dasheng Ji",
+    author_email="jidasheng@basicfinder.com",
+    description="Point cloud object detection",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    packages=find_packages(),
+    include_package_data=True,
+    install_requires=[
+        "numpy",
+        "requests",
+        "python-lzf",
+        "scikit-learn",
+        "tornado",
+    ],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent",
+    ],
+)

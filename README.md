@@ -1,19 +1,17 @@
-# Docker image
-`basicai/xtreme1-point-cloud-object-detection`
+# Point Cloud Object Detection
 
-# Service
-### Start
-```shell
+## Run
+
+```bash
+wget https://basicai-asset.s3.us-west-2.amazonaws.com/xtreme1/model/cbgs_voxel0075_centerpoint_nds_6648.pth
 cd pcdet_open
-python app.py <model file> --port xxxx
+python app.py ../cbgs_voxel0075_centerpoint_nds_6648.pth --port 5000
 ```
-- `<model file>`：模型文件路径
-- `--port`：port, defaut to 5000
 
-### API
-- URL：`POST http://ip:port/pointCloud/recognition:5000`
+## API
+
+- URL：`POST http://ip:port/pointCloud/recognition`
 - Input
-
 ```json
 {
     "datas": [
@@ -22,16 +20,15 @@ python app.py <model file> --port xxxx
             "pointCloudUrl": "https://path/to/xxx.pcd",
             "imageUrls": [
                 "https://path/to/xxx.jpg",
-                ...
+                // ...
             ],
             "cameraConfigUrl": "https://path/to/xxx.json"
         },
-        ...
+        // ...
     ]
 }
 ```
 - Output
-
 ```json
 {
     "code": "OK",
@@ -55,10 +52,10 @@ python app.py <model file> --port xxxx
                     "confidence": 0.8,
                     "label": "car"
                 },
-                ...
+                // ...
             ]
         },
-        ...
+        // ...
     ]
 }
 ```

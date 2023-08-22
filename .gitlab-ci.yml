@@ -1,8 +1,0 @@
-include: 
-  - local: '/.cicd/algorithm.yml'
-
-# 定义全局变量
-variables:
-  APP_NAME: "pcdet-open"
-  APP_VERSION: "0.5.1"
-  MODEL_FILE_S3: "s3://basicai-algorithm-model/cbgs_voxel0075_centerpoint_nds_6648.pth"
