@@ -45,8 +45,6 @@ spec:
       containers:
         - name: $APP_NAME
           image: $IMAGE
-          args:
-            - --num_processes=1
           resources:
             requests:
               memory: 1Gi
