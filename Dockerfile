@@ -6,5 +6,5 @@ COPY . ./
 RUN pip install -e .
 
 WORKDIR /app/pcdet_open
-ENTRYPOINT ["python", "app.py", "../cbgs_voxel0075_centerpoint_nds_6648.pth"]
+CMD ["python", "app.py", "../cbgs_voxel0075_centerpoint_nds_6648.pth"]
 EXPOSE 5000
