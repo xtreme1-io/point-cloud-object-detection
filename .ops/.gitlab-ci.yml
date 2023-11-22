@@ -1,54 +1,7 @@
-stages:
-  - build-image
-  - deploy
+include:
+  - project: 'basicai/xtreme1/common'
+    file: '/ci/template/xtreme1-model.yml'
 
 variables:
   APP_NAME: "point-cloud-object-detection"
   APP_VERSION: "0.5.1"
-  IMAGE_NAME: $CI_REGISTRY_IMAGE
-  IMAGE: $IMAGE_NAME:$CI_COMMIT_SHORT_SHA
-  KUBERNETES_NAMESPACE: "basicai-xtreme1"
-
-docker-build:
-  stage: build-image
-  tags:
-    - docker
-  rules:
-    - if: $CI_COMMIT_BRANCH =~ /^dev/
-    - if: $CI_COMMIT_BRANCH =~ /^main/
-    - if: $CI_COMMIT_TAG
-  variables:
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
-    DOCKER_TLS_VERIFY: 1
-    DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
-  services:
-    - docker:20-dind
-  before_script:
-    - until docker info; do sleep 1; done
-    - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
-  script:
-    - docker pull $IMAGE_NAME:latest || true
-    - docker build --cache-from $IMAGE_NAME:latest -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME:$CI_COMMIT_SHORT_SHA -t $IMAGE_NAME:latest .
-    - docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME
-    - docker push $IMAGE_NAME:$CI_COMMIT_SHORT_SHA
-    - docker push $IMAGE_NAME:latest
-
-.deploy:
-  stage: deploy
-  tags:
-    - kubectl
-  before_script:
-    - cd .ops/$ENV
-    - sed -i 's/$APP_NAME/'"$APP_NAME"'/g' deployment.yml
-    - sed -i 's/$APP_VERSION/'"$APP_VERSION"'/g' deployment.yml
-    - sed -i 's|$IMAGE|'"$IMAGE"'|g' deployment.yml
-
-deploy-alidev:
-  extends: .deploy
-  rules:
-    - if: $CI_COMMIT_BRANCH =~ /^dev/
-  variables:
-    ENV: alidev
-  script:
-    - kubectl apply -f deployment.yml -n $KUBERNETES_NAMESPACE --kubeconfig=$KUBECONFIG_ALIYUN_DEVELOPMENT
